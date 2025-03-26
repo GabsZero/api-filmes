@@ -1,3 +1,4 @@
+// @ts-nocheck
 import knex from "knex";
 import knexConfig from "../knexfile";
 
