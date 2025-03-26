@@ -1,5 +1,7 @@
 import type { Knex } from "knex";
+const { attachPaginate } = require('knex-paginate');
 
+attachPaginate();
 // Update with your config settings.
 
 const config: { [key: string]: Knex.Config } = {
