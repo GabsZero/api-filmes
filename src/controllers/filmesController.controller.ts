@@ -1,6 +1,11 @@
 import { Request, Response } from "express"
 import database from "../database/config"
 import { Filme } from "../entidades/filme"
+import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
+import { validate } from "class-validator"
+
+const { DateTime } = require("luxon");
+
 
 export const getFilmes = async (req: Request, res: Response) => {
 
@@ -22,4 +27,37 @@ export const getFilmes = async (req: Request, res: Response) => {
       currentPage: page
     })
   res.json(filmes)
+}
+
+export const storeFilme = async (req: Request, res: Response) => {
+  let filme = new CreateFilmeDto()
+  filme.nome = req.body.nome
+  filme.genero_id = parseInt(req.body.genero_id as string)
+  filme.created_at = DateTime.now()
+  filme.updated_at = DateTime.now()
+
+  console.log(filme)
+
+  const errors = await validate(filme)
+  if (errors.length > 0) {
+    let response: Array<string> = []
+    errors.map(err => {
+      return Object.keys(err.constraints).forEach(value => {
+        response.push(err.constraints[value])
+      })
+
+    })
+    res.status(400).json({
+      data: response,
+      success: false
+    })
+  }
+
+  const result = await database.insert(filme).into('filmes')
+
+  res.status(201).json({
+    message: 'Filme criado com sucesso!',
+    data: filme,
+    success: true
+  })
 }
