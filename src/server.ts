@@ -5,7 +5,7 @@ import { initRoutes } from "./routes";
 const app = express();
 app.use(express.json())
 
-const route = initRoutes(app)
+const route = initRoutes()
 
 app.use(route)
 
