@@ -36,8 +36,6 @@ export const storeFilme = async (req: Request, res: Response) => {
   filme.created_at = DateTime.now()
   filme.updated_at = DateTime.now()
 
-  console.log(filme)
-
   const errors = await validate(filme)
   if (errors.length > 0) {
     let response: Array<string> = []
