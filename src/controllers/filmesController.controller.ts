@@ -57,3 +57,15 @@ export const storeFilme = async (req: Request, res: Response) => {
     success: true
   })
 }
+
+export const marcarFilmeAssistido = async (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id as string)
+
+  const filme = await database.table('filmes').where('id', id).update({ assistido: true })
+
+  res.status(200).json({
+    message: 'Filme assistido com sucesso!',
+    data: filme,
+    success: true
+  })
+}

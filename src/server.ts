@@ -1,13 +1,13 @@
 import express from 'express'
 
-import { initRoutes } from "./routes";
+import { v1 } from "./routes";
 
 const app = express();
 app.use(express.json())
 
-const route = initRoutes()
+const v1Routes = v1()
 
-app.use(route)
+app.use('/api/v1', v1Routes)
 
 
 app.listen(3333, () => 'server running on port 3333')
