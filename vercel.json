@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "knex migrate:up && npm run build",
   "builds": [
     {
+      "command": "knex migrate:up && npm run build",
       "src": "src/index.ts",
       "use": "@now/node"
     }
