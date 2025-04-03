@@ -36,17 +36,19 @@ export const storeFilme = async (req: Request, res: Response) => {
   if (errors.length > 0) {
     let response: Array<string> = []
     errors.map((err: ValidationError) => {
-      console.log(err)
-      return Object.keys(err.constraints).forEach(value => {
-        response.push(err.constraints[value])
+      const constraints = err.constraints ? err.constraints : {}
+
+      return Object.keys(constraints).forEach(value => {
+        response.push(constraints[value])
       })
 
     })
-    console.log(response)
+
     res.status(400).json({
       data: response,
       success: false
     })
+    return
   }
 
   const result = await database.insert(filme).into('filmes')
