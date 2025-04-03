@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
+import { IsNotEmpty, IsNumber, Length } from "class-validator";
 const { DateTime } = require("luxon");
 
 
 export class CreateFilmeDto {
-  @IsString({
-    message: "Nome do filme precisa ser um texto"
+  @IsNotEmpty({
+    message: "Nome do filme é obrigatório"
   })
   @Length(3, 255, {
     message: "Nome do filme precisa ter entre 3 e 255 caracteres"
