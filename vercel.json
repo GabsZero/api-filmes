@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "knex migrate:up && npm run build",
   "builds": [
     {
       "src": "src/index.ts",
