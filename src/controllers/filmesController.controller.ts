@@ -39,7 +39,7 @@ export const getFilmes = async (req: Request, res: Response) => {
   res.json(filmes)
 }
 
-export const storeFilme = async (req: Request, res: Response) => {
+export const gravarFilme = async (req: Request, res: Response) => {
   let filme = new CreateFilmeDto(req.body.nome, parseInt(req.body.genero_id as string))
 
   const errors: ValidationError[] = await validate(filme)
@@ -78,6 +78,18 @@ export const marcarFilmeAssistido = async (req: Request, res: Response) => {
   res.status(200).json({
     message: 'Filme assistido com sucesso!',
     data: filme,
+    success: true
+  })
+}
+
+export const apagarFilme = async (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id as string)
+
+  const filme = await database.table('filmes').where('id', id).delete()
+
+  res.status(200).json({
+    message: 'Filme apagado com sucesso!',
+    data: null,
     success: true
   })
 }

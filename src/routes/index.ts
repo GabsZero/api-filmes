@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { getGeneros } from '../controllers/generosController.controllers';
-import { getFilmes, storeFilme, marcarFilmeAssistido } from '../controllers/filmesController.controller';
+import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme } from '../controllers/filmesController.controller';
 
 
 export const v1 = (): Router => {
@@ -8,7 +8,8 @@ export const v1 = (): Router => {
 
   route.get('/generos', getGeneros)
   route.get('/filmes', getFilmes)
-  route.post('/filmes', storeFilme)
+  route.post('/filmes', gravarFilme)
+  route.delete('/filmes/:id', apagarFilme)
   route.post('/filmes/assistido/:id', marcarFilmeAssistido)
 
 
