@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "knex migrate:up && npm run build",
+  "buildCommand": "knex migrate:up --knexfile ./src/knexfile.ts && npm run build",
   "routes": [
     {
       "src": "/(.*)",
