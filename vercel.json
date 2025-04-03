@@ -1,6 +1,12 @@
 {
   "version": 2,
   "buildCommand": "knex migrate:latest --knexfile ./src/knexfile.ts && npm run build",
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@now/node"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
