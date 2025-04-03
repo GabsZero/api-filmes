@@ -3,27 +3,38 @@ import database from "../database/config"
 import { Filme } from "../entidades/filme"
 import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
 import { validate, ValidationError } from "class-validator"
+import { QueryBuilder } from "knex"
 
 
 export const getFilmes = async (req: Request, res: Response) => {
 
   const page: number = parseInt(req.query.page as string) || 1
   const perPage: number = parseInt(req.query.per_page as string) || 10;
+  const assistido: boolean = req.query.assistido === 'true' ? true : false
 
   // @ts-ignore
-  const filmes: Array<Filme> = await database.
+  const filmesQuery: QueryBuilder = database.
     table('filmes').
     innerJoin("generos", "filmes.genero_id", "=", "generos.id")
     .select([
       'filmes.nome',
       'generos.nome_exibicao as genero',
+      'filmes.assistido',
       'filmes.created_at',
       'filmes.updated_at'
-      // @ts-ignore
-    ]).paginate({
-      perPage: perPage,
-      currentPage: page
-    })
+    ])
+
+  if (assistido) {
+    // @ts-ignore
+    filmesQuery.where('filmes.assistido', '=', assistido)
+  }
+
+  // @ts-ignore
+  const filmes = await filmesQuery.paginate({
+    perPage: perPage,
+    currentPage: page
+  })
+
   res.json(filmes)
 }
 
