@@ -13,3 +13,5 @@ app.use('/api/v1', v1Routes)
 
 
 app.listen(3333, () => 'server running on port 3333')
+
+module.exports = app;

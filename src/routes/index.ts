@@ -1,10 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { getGeneros } from '../controllers/generosController.controllers';
-import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme } from '../controllers/filmesController.controller';
+import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme, helloWorld } from '../controllers/filmesController.controller';
 
 
 export const v1 = (): Router => {
   const route = Router()
+
+  route.get("/", helloWorld);
 
   route.get('/generos', getGeneros)
   route.get('/filmes', getFilmes)
