@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import database from "../database/config"
 import { Filme } from "../entidades/filme"
 import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
-import { validate } from "class-validator"
+import { validate, ValidationError } from "class-validator"
 
 const { DateTime } = require("luxon");
 
@@ -30,21 +30,19 @@ export const getFilmes = async (req: Request, res: Response) => {
 }
 
 export const storeFilme = async (req: Request, res: Response) => {
-  let filme = new CreateFilmeDto()
-  filme.nome = req.body.nome
-  filme.genero_id = parseInt(req.body.genero_id as string)
-  filme.created_at = DateTime.now()
-  filme.updated_at = DateTime.now()
+  let filme = new CreateFilmeDto(req.body.nome, parseInt(req.body.genero_id as string))
 
-  const errors = await validate(filme)
+  const errors: ValidationError[] = await validate(filme)
   if (errors.length > 0) {
     let response: Array<string> = []
-    errors.map(err => {
+    errors.map((err: ValidationError) => {
+      console.log(err)
       return Object.keys(err.constraints).forEach(value => {
         response.push(err.constraints[value])
       })
 
     })
+    console.log(response)
     res.status(400).json({
       data: response,
       success: false
