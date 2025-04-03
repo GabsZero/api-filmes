@@ -4,8 +4,6 @@ import { Filme } from "../entidades/filme"
 import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
 import { validate, ValidationError } from "class-validator"
 
-const { DateTime } = require("luxon");
-
 
 export const getFilmes = async (req: Request, res: Response) => {
 
