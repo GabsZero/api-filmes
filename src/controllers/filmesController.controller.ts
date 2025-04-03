@@ -10,13 +10,14 @@ export const getFilmes = async (req: Request, res: Response) => {
 
   const page: number = parseInt(req.query.page as string) || 1
   const perPage: number = parseInt(req.query.per_page as string) || 10;
-  const assistido: boolean = req.query.assistido === 'true' ? true : false
+  const assistido: string = req.query.assistido as string
 
   // @ts-ignore
   const filmesQuery: QueryBuilder = database.
     table('filmes').
     innerJoin("generos", "filmes.genero_id", "=", "generos.id")
     .select([
+      'filmes.id',
       'filmes.nome',
       'generos.nome_exibicao as genero',
       'filmes.assistido',
