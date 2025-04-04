@@ -1,9 +1,10 @@
 import { Request, Response } from "express"
 import database from "../database/config"
-import { Filme } from "../entidades/filme"
 import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
 import { validate, ValidationError } from "class-validator"
 import { QueryBuilder } from "knex"
+import { GravarFilmeService } from "../Domains/Filmes/GravarFilmeService"
+import logger from "../utils/logger"
 
 
 export const getFilmes = async (req: Request, res: Response) => {
@@ -65,13 +66,27 @@ export const gravarFilme = async (req: Request, res: Response) => {
     return
   }
 
-  const result = await database.insert(filme).into('filmes')
+  try {
+    await GravarFilmeService(filme)
 
-  res.status(201).json({
-    message: 'Filme criado com sucesso!',
-    data: filme,
-    success: true
-  })
+    res.status(201).json({
+      message: 'Filme criado com sucesso!',
+      data: filme,
+      success: true
+    })
+  } catch (error: any) {
+
+    logger.error({
+      message: error.message,
+      stack: error.stack,
+      filme: filme
+    })
+
+    res.status(500).json({
+      message: 'Erro ao criar filme!',
+      success: false
+    })
+  }
 }
 
 export const marcarFilmeAssistido = async (req: Request, res: Response) => {

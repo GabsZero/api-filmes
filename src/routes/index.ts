@@ -6,8 +6,6 @@ import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme, helloWorld }
 export const v1 = (): Router => {
   const route = Router()
 
-  route.get("/", helloWorld);
-
   route.get('/generos', getGeneros)
   route.get('/filmes', getFilmes)
   route.post('/filmes', gravarFilme)
