@@ -12,7 +12,7 @@ const logger = createLogger({
   ),
   defaultMeta: { service: 'api-filmes' },
   transports: [
-    new transports.File({ filename: './logs/api-filmes.log' }),
+    new transports.File({ filename: 'api-filmes.log' }),
   ]
 });
 
