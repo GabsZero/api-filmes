@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import database from "../database/config"
 import { CreateFilmeDto } from "../dtos/createFilmeDto.dtos"
 import { validate, ValidationError } from "class-validator"
-import { GravarFilmeService } from "../Domains/Filmes/GravarFilmeAction"
+import { gravarFilmeService } from "../Domains/Filmes/GravarFilmeAction"
 import logger from "../utils/logger"
 import { marcarFilmeAssistidoAction } from "../Domains/Filmes/marcarFilmeAssistidoAction"
 import { getFilmesAction } from "../Domains/Filmes/GetFilmesAction"
@@ -63,7 +63,7 @@ export const gravarFilme = async (req: Request, res: Response) => {
   }
 
   try {
-    await GravarFilmeService(filme)
+    await gravarFilmeService(filme)
 
     res.status(201).json({
       message: 'Filme criado com sucesso!',
