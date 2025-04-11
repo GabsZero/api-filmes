@@ -36,10 +36,6 @@ export const getFilmes = async (req: Request, res: Response) => {
   }
 }
 
-export const helloWorld = async (req: Request, res: Response) => {
-  res.send("Express on Vercel")
-}
-
 export const gravarFilme = async (req: Request, res: Response) => {
   let filme = new CreateFilmeDto(req.body.nome, parseInt(req.body.genero_id as string))
 
