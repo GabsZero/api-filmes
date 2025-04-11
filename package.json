@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/index.ts",
-    "test": "jest -c jest.config.js --testTimeout=10000",
+    "test": "jest -c jest.config.js --forceExit --testTimeout=10000",
     "build": "tsc"
   },
   "jest": {

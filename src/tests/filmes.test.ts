@@ -1,8 +1,13 @@
 const server = require('../index.ts');
 const request = require('supertest');
 import { describe, it, expect } from '@jest/globals';
+import database from '../database/config';
 const requestWithSupertest = request(server);
 
+
+afterAll(() => {
+  database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").delete();
+});
 
 describe('Filmes', () => {
   it('deve retornar uma lista de filmes', async () => {
@@ -18,4 +23,29 @@ describe('Filmes', () => {
     expect(filme).toHaveProperty('created_at');
     expect(filme).toHaveProperty('updated_at');
   });
-});
+
+  it('deve criar um filme', async () => {
+    const response = await requestWithSupertest.post('/api/v1/filmes').send({
+      nome: 'Teste',
+      genero_id: '2',
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.data).toHaveProperty('nome');
+    expect(response.body.data).toHaveProperty('genero_id');
+  })
+
+  it('deve apagar um filme', async () => {
+    const filme = await database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").first();
+    const response = await requestWithSupertest.delete(`/api/v1/filmes/${filme.id}`).send();
+
+    expect(response.status).toBe(200);
+  })
+
+
+
+})
+
+
+
+
