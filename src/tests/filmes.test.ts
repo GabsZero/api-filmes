@@ -5,11 +5,13 @@ import database from '../database/config';
 const requestWithSupertest = request(server);
 
 
-afterAll(() => {
-  database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").delete();
-});
 
 describe('Filmes', () => {
+
+  afterAll(() => {
+    database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").delete();
+  });
+
   it('deve retornar uma lista de filmes', async () => {
     const response = await requestWithSupertest.get('/api/v1/filmes');
     const filme = response.body.data[0];
@@ -35,15 +37,19 @@ describe('Filmes', () => {
     expect(response.body.data).toHaveProperty('genero_id');
   })
 
+  it('deve marcar um filme como assistido', async () => {
+    const filme = await database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").first();
+
+    const response = await requestWithSupertest.post(`/api/v1/filmes/assistido/${filme.id}`).send();
+    expect(response.status).toBe(200);
+  });
+
   it('deve apagar um filme', async () => {
     const filme = await database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").first();
     const response = await requestWithSupertest.delete(`/api/v1/filmes/${filme.id}`).send();
 
     expect(response.status).toBe(200);
   })
-
-
-
 })
 
 
