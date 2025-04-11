@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { getGeneros } from '../controllers/generosController.controllers';
-import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme, helloWorld } from '../controllers/filmesController.controller';
+import { getFilmes, gravarFilme, marcarFilmeAssistido, apagarFilme } from '../controllers/filmesController.controller';
 
 
 export const v1 = (): Router => {
