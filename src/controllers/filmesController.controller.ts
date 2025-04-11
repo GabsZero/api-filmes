@@ -93,8 +93,15 @@ export const marcarFilmeAssistido = async (req: Request, res: Response) => {
   }
 
   try {
-    await marcarFilmeAssistidoAction(id)
+    const filmeFoiMarcado = await marcarFilmeAssistidoAction(id)
 
+    if (!filmeFoiMarcado) {
+      res.status(404).json({
+        message: 'Filme não encontrado!',
+        success: false
+      })
+      return
+    }
     res.status(200).json({
       message: 'Filme assistido com sucesso!',
       data: null,
@@ -117,7 +124,15 @@ export const marcarFilmeAssistido = async (req: Request, res: Response) => {
 export const apagarFilme = async (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id as string)
 
-  const filme = await database.table('filmes').where('id', id).delete()
+  const filmeFoiApagado = await database.table('filmes').where('id', id).delete()
+
+  if (!filmeFoiApagado) {
+    res.status(404).json({
+      message: 'Filme não encontrado!',
+      success: false
+    })
+    return
+  }
 
   res.status(200).json({
     message: 'Filme apagado com sucesso!',

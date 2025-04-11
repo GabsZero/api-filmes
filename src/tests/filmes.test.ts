@@ -37,6 +37,23 @@ describe('Filmes', () => {
     expect(response.body.data).toHaveProperty('genero_id');
   })
 
+  it('deve retornar um erro ao criar um filme sem um nome', async () => {
+    const response = await requestWithSupertest.post('/api/v1/filmes').send({
+      genero_id: '2',
+    });
+
+    expect(response.status).toBe(400);
+  })
+
+  it('deve retornar um erro ao criar um filme sem um genero', async () => {
+    const response = await requestWithSupertest.post('/api/v1/filmes').send({
+      nome: 'Teste',
+    });
+
+    expect(response.status).toBe(400);
+  })
+
+
   it('deve marcar um filme como assistido', async () => {
     const filme = await database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").first();
 
@@ -44,11 +61,23 @@ describe('Filmes', () => {
     expect(response.status).toBe(200);
   });
 
+  it('deve retornar um erro ao marcar um filme como assistido que não existe', async () => {
+    const response = await requestWithSupertest.post(`/api/v1/filmes/assistido/999999`).send();
+
+    expect(response.status).toBe(404);
+  })
+
   it('deve apagar um filme', async () => {
     const filme = await database.table("filmes").where("nome", "=", "Teste").where("genero_id", "=", "2").first();
     const response = await requestWithSupertest.delete(`/api/v1/filmes/${filme.id}`).send();
 
     expect(response.status).toBe(200);
+  })
+
+  it('deve retornar um erro ao apagar um filme que não existe', async () => {
+    const response = await requestWithSupertest.delete(`/api/v1/filmes/999999`).send();
+
+    expect(response.status).toBe(404);
   })
 })
 
